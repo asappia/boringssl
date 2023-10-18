@@ -133,7 +133,14 @@
 // Such flags can be removed. If building with MSVC, build with /std:c11.
 #error "BoringSSL must be built in C11 mode or higher."
 #endif
+// MSVC2019 has not stdalign.h 
+#if _MSC_VER >=1928
+#define alignas(x) __declspec(align(x))
+#define alignof __alignof
+#else
+
 #include <stdalign.h>
+#endif
 #endif
 
 #if defined(OPENSSL_THREADS) && \
